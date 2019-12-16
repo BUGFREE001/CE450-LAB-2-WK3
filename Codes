@@ -1,0 +1,598 @@
+Please Note that:
+------------------------------------------------------
+pin a connected to pin  P1^0 of 8051
+     b                  P1^1 
+     c                  P1^2 
+     d                  P1^3 
+     e                  P1^4 
+     f                  P1^5 
+     g                  P1^6 
+     
+------------------------------------------     
+ Bit D1 is conncted to pin P2^0
+     D2                    P2^1
+     D3                    P2^2
+     D4                    P2^3
+     
+------------------------------------------------------------------------------------------------------------------------------------     
+
+# include <reg52.h> 
+#define uint unsigned int
+#define uchar unsigned char
+void delay(uint c) -
+{
+ uint a, b;
+ for(a=c; a>0; a--)
+	for(b=415; b>0; b--);
+}
+
+void bitOff(uchar D){
+if(D==1) P2=0xFF;
+if(D==2) P2=0xFF;
+if(D==3) P2=0xFF;
+if(D==4) P2=0xFF;
+}
+
+
+void sevenSegmentNum(uchar num) {
+ switch(num){
+	case 0: {
+	P1=0xC0;
+	break;
+ }
+ case 1: {
+	P1=0xF9;
+	break;
+ }
+ case 2: {
+	P1=0xA4;
+	break;
+ }
+ case 3:{
+	P1=0xB0;
+	break;
+ }
+ case 4: {
+	P1=0x99;
+	break;
+ }
+ case 5:{
+	P1=0x92;
+	break;
+ }
+ case 6: {
+	P1=0x82;
+	break;
+ }
+ case 7:{
+	P1=0xF8;
+	break;
+ }
+ case 8: {
+	P1=0x80;
+ break;
+ }
+case 9:{
+	P1=0x98;
+	break;
+ }
+}
+}
+
+
+
+
+void sevenSegmentChar(uchar alph)
+{
+ switch(alph)
+ {
+case 0: {
+P1=0xA0;
+break;
+}
+case 1:{
+P1=0x83;
+break;
+}
+case 2:{
+P1=0xA7;
+break;
+}
+case 3:{
+P1=0xA1;
+break;
+}
+case 4:{
+P1=0x86;
+break;
+}
+case 5:{
+P1=0x8E;
+break;
+}
+case 6: {
+P1=0x90;
+break;
+}
+case 7:{
+P1=0x8B;
+break;
+}
+case 8: {
+P1=0xFB;
+break;
+}
+case 9:{
+P1=0xF1;
+break;
+}
+case 10: {
+P1=0x8F;
+break;
+}
+case 11: {
+P1=0xC7;
+break;
+}
+case 12:{
+P1=0xAA;
+break;
+}
+case 13:{
+P1=0xAB;
+break;
+}
+case 14:{
+P1=0xA3;
+break;
+}
+case 15:{
+P1=0x8C;
+break;
+}
+case 16:{
+P1=0x9A;
+break;
+}
+case 17:{
+P1=0xAF;
+break;
+}
+case 18:{
+P1=0x92;
+break;
+}
+case 19:{
+P1=0x87;
+break;
+}
+case 20: {
+P1=0xE3;
+break;
+}
+case 21:{
+P1=0xC1;
+break;
+}
+case 22: {
+P1=0x81;
+break;
+}
+case 23:{
+P1=0xB9;
+break;
+}
+case 24:{
+P1=0x8D;
+break;
+}
+case 25:{
+P1=0xB3;
+break;
+}
+}
+}
+
+
+
+void bitSel(uchar D){
+switch(D){
+case 1:{
+P2=0xFE;
+break;
+}
+case 2:{
+P2=0xFD;
+break;
+}
+case 3:{
+P2=0xFB;
+break;
+}
+case 4:{
+P2=0xF7;
+break;
+}
+}
+}
+
+
+
+void one(uint i)
+{		
+		uint refresh = 100;
+		uint counter = refresh;
+		for(j = 0; j < counter; j++)
+	  {
+			bitSel(1); 
+			sevenSegmentChar(7); 
+			delay(3);
+			bitSel(2);
+			sevenSegmentChar(8);
+			delay(3);
+	  }
+		counter = refresh;
+		for(j = 0; j < counter; j++)
+		{
+			bitSel(1); 
+			sevenSegmentChar(24); 
+			delay(2);
+			bitSel(2); 
+			sevenSegmentChar(14);
+			delay(2);
+			bitSel(3);
+			sevenSegmentChar(20);
+			delay(2);
+		}
+		counter = refresh;
+		for(j = 0; j < counter; j++){
+			bitSel(1); 
+			sevenSegmentChar(3); 
+			delay(2);
+			bitSel(2);
+			sevenSegmentChar(8);
+			delay(2);
+			bitSel(3); 
+			sevenSegmentChar(3);
+			delay(2);
+		}
+		counter = refresh;
+		for(i = 0; i < counter; i++){
+			bitSel(1); 
+			sevenSegmentChar(6); 
+			delay(1);
+			bitSel(2);
+			sevenSegmentChar(14);
+			delay(1);
+			bitSel(3); 
+			sevenSegmentChar(14);
+			delay(1);
+			bitSel(4); 
+			sevenSegmentChar(3);
+			delay(1);
+		}
+		counter = refresh;
+		for(j = 0; j < counter; j++){
+			bitSel(1);
+			sevenSegmentChar(9);
+			delay(2);
+			bitSel(2);
+			sevenSegmentChar(14);
+			delay(2);
+			bitSel(3);
+			sevenSegmentChar(1);
+			delay(2);
+		}
+}
+
+
+
+void two(uint i){
+	uint refresh = 50;
+	uint counter = refresh;
+	bitSel(4);
+	sevenSegmentChar(7); 
+	delay(400);
+	for(i = 0; i < counter; i++){
+		bitSel(3);
+		sevenSegmentChar(7);
+		delay(3);
+		bitSel(4);
+		sevenSegmentChar(8);
+		delay(3);
+	}
+	for(i = 0; i < counter; i++){
+		bitSel(2);
+		sevenSegmentChar(7);
+		delay(2);
+		bitSel(3);
+		sevenSegmentChar(8);
+		delay(2);
+		bitSel(4);
+		bitOff(4);
+		delay(2);
+	}
+	
+  
+	for(i = 0; i < counter; i++){
+		bitSel(1);
+		sevenSegmentChar(7);
+		delay(1);
+		bitSel(2);
+		sevenSegmentChar(8);
+		delay(1);
+		bitSel(3);
+		bitOff(3);
+		delay(1);
+		bitSel(4);
+		sevenSegmentChar(24); 
+		delay(1);
+	}
+	
+	for(i = 0; i < counter; i++){
+		bitSel(1);
+		sevenSegmentChar(8);
+		delay(1);
+		bitSel(2);
+		bitOff(2);
+		delay(1);
+		bitSel(3);
+		sevenSegmentChar(24);
+		delay(1);
+		bitSel(4);
+		sevenSegmentChar(14);
+		delay(1);
+	}
+	
+	for(i = 0; i < counter; i++){
+		bitSel(1);
+		bitOff(1);
+		delay(1);
+		bitSel(2);
+		sevenSegmentChar(24);
+		delay(1);
+		bitSel(3);
+		sevenSegmentChar(14);
+		delay(1);
+		bitSel(4);
+		sevenSegmentChar(20);
+		delay(1);
+	}
+
+	for(i = 0; i < counter; i++){
+		bitSel(1);
+		sevenSegmentChar(24);
+		delay(1);
+		bitSel(2);
+		sevenSegmentChar(14);
+		delay(1);
+		bitSel(3);
+		sevenSegmentChar(20);
+		delay(1);
+		bitSel(4);
+		bitOff(4);
+		delay(1);
+	}
+	
+	for(i = 0; i < counter; i++){
+		bitSel(1);
+		sevenSegmentChar(14);
+		delay(1);
+		bitSel(2);
+		sevenSegmentChar(20);
+		delay(1);
+		bitSel(3);
+		bitOff(3);
+		delay(1);
+		bitSel(4);
+		sevenSegmentChar(3);
+		delay(1);	
+	}
+
+	for(i = 0; i < counter; i++){
+		bitSel(1);
+		sevenSegmentChar(20);
+		delay(1);
+		bitSel(2);
+		bitOff(2);
+		delay(1);
+		bitSel(3);
+		sevenSegmentChar(3);
+		delay(1);
+		bitSel(4);
+		sevenSegmentChar(8);
+		delay(1);	
+	}
+	
+	for(i = 0; i < counter; i++){
+		bitSel(1);
+		bitOff(1);
+		delay(1);
+		bitSel(2);
+		sevenSegmentChar(3);
+		delay(1);
+		bitSel(3);
+		sevenSegmentChar(8);
+		delay(1);
+		bitSel(4);
+		sevenSegmentChar(3);
+		delay(1);		
+	}
+	
+	
+	for(i = 0; i < counter; i++){
+		bitSel(1);
+		sevenSegmentChar(3);
+		delay(1);
+		bitSel(2);
+		sevenSegmentChar(8);
+		delay(1);
+		bitSel(3);
+		sevenSegmentChar(3);
+		delay(1);
+		bitSel(4);
+		bitOff(4);
+		delay(1);		
+	}
+	
+	for(i = 0; i < counter; i++){
+		bitSel(1);
+		sevenSegmentChar(8);
+		delay(1);
+		bitSel(2);
+		sevenSegmentChar(3);
+		delay(1);
+		bitSel(3);
+		bitOff(3);
+		delay(1);	
+		bitSel(4);
+		sevenSegmentChar(6);
+		delay(1);		
+	}
+	
+	for(i = 0; i < counter; i++){
+		bitSel(1);
+		sevenSegmentChar(3);
+		delay(1);
+		bitSel(2);
+		bitOff(2);
+		delay(1);	
+		bitSel(3);
+		sevenSegmentChar(6);
+		delay(1);	
+		bitSel(4);
+		sevenSegmentChar(14);
+		delay(1);				
+	}
+	
+	for(i = 0; i < counter; i++){
+		bitSel(1);
+		bitOff(1);
+		delay(1);	
+		bitSel(2);
+		sevenSegmentChar(6);
+		delay(1);	
+		bitSel(3);
+		sevenSegmentChar(14);
+		delay(1);		
+		bitSel(4);
+		sevenSegmentChar(14);
+		delay(1);			
+	}
+	
+	for(i = 0; i < counter; i++){
+		bitSel(1);
+		sevenSegmentChar(6);
+		delay(1);	
+		bitSel(2);
+		sevenSegmentChar(14);
+		delay(1);		
+		bitSel(3);
+		sevenSegmentChar(14);
+		delay(1);	
+		bitSel(4);
+		sevenSegmentChar(3);
+		delay(1);		
+	}
+	
+	for(i = 0; i < counter; i++){
+		bitSel(1);
+		sevenSegmentChar(14);
+		delay(1);		
+		bitSel(2);
+		sevenSegmentChar(14);
+		delay(1);	
+		bitSel(3);
+		sevenSegmentChar(3);
+		delay(1);	
+		bitSel(4);
+		bitOff(4);
+		delay(1);		
+	}
+	
+	for(i = 0; i < counter; i++){	
+		bitSel(1);
+		sevenSegmentChar(14);
+		delay(1);	
+		bitSel(2);
+		sevenSegmentChar(3);
+		delay(1);	
+		bitSel(3);
+		bitOff(3);
+		delay(1);		
+		bitSel(4);
+		sevenSegmentChar(9);
+		delay(1);
+	}
+	
+	for(i = 0; i < counter; i++){	
+		bitSel(1);
+		sevenSegmentChar(3);
+		delay(1);	
+		bitSel(2);
+		bitOff(2);
+		delay(1);		
+		bitSel(3);
+		sevenSegmentChar(9);
+		delay(1);
+		bitSel(4);
+		sevenSegmentChar(14);
+		delay(1);
+	}
+	
+	for(i = 0; i < counter; i++){	
+		bitSel(1);
+		bitOff(2);
+		delay(1);		
+		bitSel(2);
+		sevenSegmentChar(9);
+		delay(1);
+		bitSel(3);
+		sevenSegmentChar(14);
+		delay(1);
+		bitSel(4);
+		sevenSegmentChar(1);
+		delay(1);
+	}
+}
+
+void three(){
+  int h, i, j, r, t, repeat;
+	j = 0;
+	repeat = 1;
+	for(t = 0; t < 10; t++){
+		for(h = 0; h < 10; h++){
+			for(i = 0; j < 10; i++){
+				for(r = 0; r < repeat; r++){
+					bitSel(1);
+					sevenSegmentNum(t);
+					delay(1);
+					bitSel(2);
+					sevenSegmentNum(h);
+					delay(1);
+					bitSel(3); 
+					sevenSegmentNum(j);
+					delay(1);
+					bitSel(4);
+					sevenSegmentNum(i);
+					delay(1);
+				}
+				if(i == 9){
+					i = -1;
+					j++;
+				}
+			}
+			j = 0;
+		}
+		h = 0;
+	}	
+}
+
+
+
+void main (){
+	uchar i;
+	while(1){
+			one(i);
+	}
+}
